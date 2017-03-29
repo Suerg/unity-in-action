@@ -32,9 +32,13 @@ public class MemoryCard : MonoBehaviour {
 	}
 
     public void OnMouseDown() {
-        Debug.Log("myid: " + _id);
-        if (cardBack.activeSelf) {
+        if (cardBack.activeSelf && controller.canReveal) {
             cardBack.SetActive(false);
+            controller.CardRevealed(this);
         }
+    }
+
+    public void Unreveal() {
+        cardBack.SetActive(true);
     }
 }

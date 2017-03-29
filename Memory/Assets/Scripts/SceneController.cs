@@ -14,6 +14,10 @@ public class SceneController : MonoBehaviour {
     [SerializeField]
     private Sprite[] images;
 
+    private MemoryCard _firstRevealed;
+    private MemoryCard _secondRevealed;
+    private int _score = 0;
+
 	// Use this for initialization
 	void Start () {
         Vector3 startPos = originalCard.transform.position;
@@ -42,6 +46,21 @@ public class SceneController : MonoBehaviour {
 
 	}
 
+    public bool canReveal {
+        get {
+            return _secondRevealed == null;
+        }
+    }
+
+    public void CardRevealed(MemoryCard card) {
+        if (_firstRevealed == null) {
+            _firstRevealed = card;
+        } else {
+            _secondRevealed = card;
+            StartCoroutine(CheckMatch());
+        }
+    }
+
     private int[] ShuffleArray(int[] numbers) {
         int[] newArray = numbers.Clone() as int[];
         for (int i = 0; i < newArray.Length; i++) {
@@ -52,7 +71,22 @@ public class SceneController : MonoBehaviour {
         }
         return newArray;
     }
-	
+    
+    private IEnumerator CheckMatch() {
+        if (_firstRevealed.id == _secondRevealed.id) {
+            _score++;
+            Debug.Log("Score: " + _score);
+        } else {
+            yield return new WaitForSeconds(0.5f);
+
+            _firstRevealed.Unreveal();
+            _secondRevealed.Unreveal();
+        }
+
+        _firstRevealed = null;
+        _secondRevealed = null;
+    }
+    	
 	// Update is called once per frame
 	void Update () {
 		
