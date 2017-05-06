@@ -9,6 +9,9 @@ public class SceneController : MonoBehaviour {
     public const float offsetY = 2.5f;
 
     [SerializeField]
+    private TextMesh scoreLabel;
+
+    [SerializeField]
     private MemoryCard originalCard;
 
     [SerializeField]
@@ -42,6 +45,7 @@ public class SceneController : MonoBehaviour {
                 float posY = -(offsetY * j) + startPos.y;
                 card.transform.position = new Vector3(posX, posY, startPos.z);
             }
+            scoreLabel.text = "Score: " + _score;
         }
 
 	}
@@ -75,7 +79,7 @@ public class SceneController : MonoBehaviour {
     private IEnumerator CheckMatch() {
         if (_firstRevealed.id == _secondRevealed.id) {
             _score++;
-            Debug.Log("Score: " + _score);
+            scoreLabel.text = "Score: " + _score;
         } else {
             yield return new WaitForSeconds(0.5f);
 
