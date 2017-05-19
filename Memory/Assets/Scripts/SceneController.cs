@@ -21,6 +21,10 @@ public class SceneController : MonoBehaviour {
     private MemoryCard _secondRevealed;
     private int _score = 0;
 
+    public void Restart() {
+        Application.LoadLevel("main");
+    }
+
 	// Use this for initialization
 	void Start () {
         Vector3 startPos = originalCard.transform.position;
